@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shagai Game</title>
+        <style>
+            button {
+                background-color: #ff9800;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                transition: transform 0.1s ease, background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #e68a00;
+                transform: scale(1.05);
+            }
+
+            button:active {
+                transform: scale(0.95);
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #f9f9f9;
+                margin: 0;
+                padding: 0;
+            }
+
+            h1 {
+                font-size: 24px;
+                color: #333;
+            }
+
+            p {
+                font-size: 20px;
+                margin: 20px 0;
+                font-weight: bold;
+            }
+
+            img {
+                width: 70px;
+                height: 70px;
+                margin: 10px;
+                margin-left: 25%; 
+                transition: margin-left 0.3s ease; 
+            }
+
+            .player-container {
+                display: flex;
+                justify-content: flex-start; 
+                align-items: center;
+                margin: 20px;
+                height: 80px;
+            }
+
+            hr {
+                border: 2px dashed #ddd;
+                margin: 20px auto;
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Player1 point: <b>0</b></h1>
+        <h1>Player2 point: <b>0</b></h1>
+        <p id="shagai">Mori</p>
+        <button onclick="shagaiOrhih()">Shagai orhih</button>
+        <br><br>
+
+        <div class="player-container">
+            <img src="horse.png" alt="Player 1 Horse" id="player1Horse">
+        </div>
+        <hr>
+        <div class="player-container">
+            <img src="horse.png" alt="Player 2 Horse" id="player2Horse">
+        </div>
+
+        <script>
+            let henbe = true;
+            let Player1Point = 0;
+            let Player2Point = 0;
+
+            let Player1 = document.getElementsByTagName('b')[0];
+            let Player2 = document.getElementsByTagName('b')[1];
+            let Player1Mori = document.getElementById('player1Horse');
+            let Player2Mori = document.getElementById('player2Horse');
+            let shagai = document.getElementById("shagai");
+
+            function shagaiOrhih() {
+                let randomToo = Math.ceil(Math.random() * 4); 
+                let imagePath = ""; 
+                switch (randomToo) {
+                    case 1:
+                        shagai.innerText = "Mori";
+                        imagePath = "horse.png";
+                        movePlayer();
+                        break;
+                    case 2: 
+                        shagai.innerText = "Honi";
+                        imagePath = "sheep.png"; 
+                        break;
+                    case 3:
+                        shagai.innerText = "Ymaa";
+                        imagePath = "goat.png"; 
+                        break;
+                    case 4: 
+                        shagai.innerText = "Uher";
+                        imagePath = "camel.png"; 
+                        break;
+                }
+
+                if (imagePath !== "") {
+                    shagai.style.backgroundImage = `url('${imagePath}')`;
+                    shagai.style.display = "inline-block";
+                    shagai.style.width = "100px";
+                    shagai.style.height = "100px";
+                    shagai.style.backgroundSize = "contain";
+                    shagai.style.backgroundRepeat = "no-repeat";
+                    shagai.style.textIndent = "-9999px"; 
+                }
+            }
+
+            function movePlayer() {
+                if (henbe) {
+                    henbe = false;
+                    Player1Point++;
+                    Player1.innerText = Player1Point;
+                    Player1Mori.style.marginLeft = Player1Point * 50 + 'px';
+                    checkWinner("Player 1");
+                } else {
+                    henbe = true;
+                    Player2Point++;
+                    Player2.innerText = Player2Point;
+                    Player2Mori.style.marginLeft = Player2Point * 50 + 'px';
+                    checkWinner("Player 2");
+                }
+            }
+
+            function checkWinner(player) {
+                if (Player1Point > 10 || Player2Point > 10) {
+                    alert(player + " wins!");
+                    resetGame();
+                }
+            }
+
+            function resetGame() {
+                Player1Point = 0;
+                Player2Point = 0;
+                Player1.innerText = 0;
+                Player2.innerText = 0;
+            }
+        </script>
+    </body>
+</html>
